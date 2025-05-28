@@ -6,7 +6,7 @@ export const AppHeader = () => {
     return (<>
         <header className='text ml-10 mr-10 mt-10 pt-4 pb-4 app-header'>
             <div className='app-header-content'>
-                <div style={{display: 'flex'}}>
+                <div className='app-header-menu'>
                     <button className='header-buttons pl-5 pr-5 mr-2'>
                         <BurgerIcon type={'primary'} />
                         Конструктор

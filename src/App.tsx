@@ -16,7 +16,13 @@ function App() {
   const [cart, setCart] = useState<Cart>({bun: undefined, fillings: []});
 
   useEffect(() => {
-    fetch(URL_INGREDIENT).then(response => response.json())
+    fetch(URL_INGREDIENT).then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+
+      return Promise.reject(`Ошибка ${response.status}`);
+    })
     .then(response => setIngredients(response.data))
     .catch(error => setErrorMessage(error))
   }, []);
@@ -35,7 +41,7 @@ function App() {
           errorMessage :
           (<>
             <AppHeader />
-            <div className='mb-10' style={{ display: 'flex', maxWidth: '1240px'}}>
+            <div className='mb-10 app-content'>
               <BurgerIngredients ingredients={ingredients} cart={cart} />
               <BurgerConstructor bun={cart.bun} fillings={cart.fillings} />
             </div>

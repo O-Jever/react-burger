@@ -14,3 +14,7 @@
   flex-wrap: wrap;
   gap: 32px 24px;
 }
+
+.burger-ingredients-tabs {
+  display: flex;
+}

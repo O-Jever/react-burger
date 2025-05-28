@@ -29,7 +29,7 @@ export const IngredientComponent = ({ ingredient, count }: IngredientComponentPr
                     <span className='text text_type_digits-default'>{price}</span>
                     <CurrencyIcon type={"primary"}/>
                 </div>
-                <span className='text text_type_main-default' style={{ textAlign: 'center' }}>{name}</span>
+                <span className='text text_type_main-default ingredient-name'>{name}</span>
             </div>
             {isModalVisible ? (
                 <Modal

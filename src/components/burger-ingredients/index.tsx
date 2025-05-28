@@ -71,7 +71,7 @@ export const BurgerIngredients = ({ ingredients, cart }: BurgerIngredientsProps)
         <div className='burger-ingredients mr-10'>
            <div className='mt-10 mb-10' >
                <h1 className='mb-5 text text_type_main-large'>Соберите бургер</h1>
-               <div style={{ display: 'flex' }}>
+               <div className='burger-ingredients-tabs'>
                     {INGREDIENT_TYPES.map(type => {
                         return (
                             <Tab key={type} value={type} active={isActive(type)} onClick={setCurrentTab}>

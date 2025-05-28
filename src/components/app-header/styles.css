@@ -25,3 +25,7 @@
 .header-buttons:hover {
   cursor: pointer;
 }
+
+.app-header-menu {
+  display: flex;
+}

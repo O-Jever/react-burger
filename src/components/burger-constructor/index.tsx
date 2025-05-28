@@ -36,7 +36,7 @@ const getBunElement = (type: 'top' | 'bottom', ingredient?: Ingredient) => {
             extraClass='ml-8'
             type={type}
             isLocked={true} 
-            text={ingredient.name} 
+            text={ingredient.name + (type === 'top' ? ' (верх)' : ' (низ)')} 
             thumbnail={ingredient.image_mobile} 
             price={ingredient.price} 
         />

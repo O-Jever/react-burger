@@ -11,3 +11,7 @@
 .ingredient:hover {
   cursor: pointer;
 }
+
+.ingredient-name {
+  text-align: center;
+}
