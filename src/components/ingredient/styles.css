@@ -1,0 +1,17 @@
+.ingredient {
+  position: relative;
+  width: calc(50% - 12px);
+  height: 208px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.ingredient:hover {
+  cursor: pointer;
+}
+
+.ingredient-name {
+  text-align: center;
+}

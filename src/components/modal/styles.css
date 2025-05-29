@@ -1,0 +1,24 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1c1c21;
+  border-radius: 40px;
+  position: absolute;
+  width: 720px;
+  top: 120px;
+  left: calc(100vw / 2 - 360px);
+  z-index: 999;
+}
+
+.modal-header {
+  width: 640px;
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-close:hover {
+  cursor: pointer;
+}
