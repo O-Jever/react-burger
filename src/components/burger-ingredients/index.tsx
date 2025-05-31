@@ -1,17 +1,19 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 import { IngredientComponent } from '../ingredient';
-import { Cart } from '../../types/cart';
 import { Ingredient, IngredientType } from '../../types/ingredient';
-import { CartPropTypes, IngredientPropTypes } from '../../utils/prop-types';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
+import { Modal } from '../modal';
+import { IngredientDetails } from '../ingredient-details';
+import { removeFormIngredient, setFormIngredient } from '../../services/reducers/ingredient-form';
+import { useGetIngredientsQuery } from '../../api/server.api';
 
 import './styles.css';
 
-const BUN = "bun";
-const SAUCE = "sauce";
-const MAIN = "main";
+const BUN = 'bun';
+const SAUCE = 'sauce';
+const MAIN = 'main';
 
 const INGREDIENT_TYPES = [BUN, SAUCE, MAIN] as const;
 
@@ -21,20 +23,36 @@ type GroupedIngredients= {
     [SAUCE]: Ingredient[];
 };
 
-type BurgerIngredientsProps = {
-    ingredients: Ingredient[];
-    cart: Cart;
-};
-
-export const BurgerIngredients = ({ ingredients, cart }: BurgerIngredientsProps) => {
+export const BurgerIngredients = () => {
     const [currentTab, setCurrentTab] = useState<string>(BUN);
+    const {data: ingredients = []} = useGetIngredientsQuery();
+    const burger = useAppSelector(state => state.burger);
+    const ingredientForm = useAppSelector(state => state.ingredientForm);
+    const dispatch = useAppDispatch();
+
+    const bunTitleRef = useRef(null);
+    const mainTitleRef = useRef(null);
+    const sauceTitleRef = useRef(null);
+
+    const getTitleRef = (type: string) => {
+        switch (type) {
+            case BUN:
+                return bunTitleRef;
+            case SAUCE:
+                return sauceTitleRef;
+            case MAIN:
+                return mainTitleRef;
+            default:
+                return mainTitleRef;
+        }
+    };
 
     const groupedIngredients = useMemo(() => 
         ingredients.reduce<GroupedIngredients>((acc, item) => {
             acc[item.type].push(item);
              return acc;
         }, { [BUN]: [], [MAIN]: [], [SAUCE]: [] })
-    , [ingredients]); 
+    , [ingredients]);
 
     const isActive = (value: string): boolean => {
         return currentTab === value; 
@@ -53,18 +71,34 @@ export const BurgerIngredients = ({ ingredients, cart }: BurgerIngredientsProps)
         }
     }
 
-    const getCountInCart = (ingredient: Ingredient) => {
+    const getCountInBurger = (ingredient: Ingredient) => {
         if (ingredient.type === BUN) {
-            return cart.bun?._id === ingredient._id ? 1 : 0;
+            return burger.bun?._id === ingredient._id ? 1 : 0;
         }
 
-        return (cart.fillings ?? []).reduce((sum, filling) => {
+        return (burger.fillings ?? []).reduce((sum, filling) => {
             if (filling._id === ingredient._id) {
                 sum++;
             }
 
             return sum;
         }, 0);
+    };
+
+    const handleScroll = (event: any) => {
+        if (
+            event.target.scrollTop >= (bunTitleRef as any).current.offsetTop &&
+            event.target.scrollTop < (sauceTitleRef as any).current.offsetTop
+        ) {
+            currentTab !== BUN && setCurrentTab(BUN);
+        } else if (
+            event.target.scrollTop >= (sauceTitleRef as any).current.offsetTop &&
+            event.target.scrollTop < (mainTitleRef as any).current.offsetTop
+        ) {
+            currentTab !== SAUCE && setCurrentTab(SAUCE);
+        } else if (currentTab !== MAIN) {
+            currentTab !== MAIN && setCurrentTab(MAIN);
+        }
     };
 
     return (
@@ -81,17 +115,20 @@ export const BurgerIngredients = ({ ingredients, cart }: BurgerIngredientsProps)
                     })}
                 </div>
            </div>
-            <section className='burger-ingredients-container burger-scrollbar'>
+            <div className='burger-ingredients-container burger-scrollbar' onScroll={handleScroll}>
                 {INGREDIENT_TYPES.map((type) => {
                     return (
                         <div key={type}>
-                            <h2 className='text text_type_main-medium'>{getTitleByType(type)}</h2>
+                            <h2 ref={getTitleRef(type)} className='text text_type_main-medium'>{getTitleByType(type)}</h2>
                             <div className='pt-6 pb-10 pr-4 pl-4 ingredients-wrapper'>
                                 {groupedIngredients[type].map((ingredient) => {
                                     return (
                                         <IngredientComponent
+                                            onClick={() => {
+                                                dispatch(setFormIngredient(ingredient));
+                                            }}
                                             ingredient={ingredient}
-                                            count={getCountInCart(ingredient)}
+                                            count={getCountInBurger(ingredient)}
                                             key={ingredient._id}
                                         />
                                     );
@@ -100,12 +137,15 @@ export const BurgerIngredients = ({ ingredients, cart }: BurgerIngredientsProps)
                         </div>
                     );
                 })}
-            </section>
+            </div>
+            {ingredientForm.ingredient ? (
+                <Modal
+                    title='Детали ингредиента'
+                    onClose={() => dispatch(removeFormIngredient())}
+                >
+                    <IngredientDetails/>
+                </Modal>
+            ) : null}
         </div>
     );
-};
-
-BurgerIngredients.propTypes = {
-    cart: CartPropTypes.isRequired,
-    ingredients: PropTypes.arrayOf(IngredientPropTypes).isRequired
 };

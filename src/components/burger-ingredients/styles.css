@@ -6,7 +6,8 @@
 
 .burger-ingredients-container {
   overflow-y: scroll;
-  max-height: calc(100vh - 358px)
+  max-height: calc(100vh - 358px);
+  position: relative;
 }
 
 .ingredients-wrapper{

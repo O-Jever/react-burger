@@ -1,11 +1,5 @@
-import { Ingredient } from '../../types/ingredient';
-import { IngredientPropTypes } from '../../utils/prop-types';
-
+import { useAppSelector } from '../../services/hooks';
 import './styles.css';
-
-type IngredientDetailsProps = {
-    ingredient: Ingredient;
-};
 
 const getNutritionValue = (title: string, value: number) => {
     return (
@@ -16,23 +10,20 @@ const getNutritionValue = (title: string, value: number) => {
     );
 };
 
-export const IngredientDetails = ({ ingredient }: IngredientDetailsProps) => {
-    const {image_large, name} = ingredient;
+export const IngredientDetails = () => {
+    const {ingredient} = useAppSelector(state => state.ingredientForm);
 
     return (
+        ingredient ? (
         <div className='ingredient-detail'>
-            <img className='mb-4' src={image_large} alt={name} />
-            <span className='text text_type_main-medium mb-8'>{name}</span>
+            <img className='mb-4' src={ingredient.image_large} alt={ingredient.name} />
+            <span className='text text_type_main-medium mb-8'>{ingredient.name}</span>
             <div className='ingredient-detail-nutrition-values mb-15'>
                 {getNutritionValue('Калории, ккал', ingredient.calories)}
                 {getNutritionValue('Белки, г', ingredient.proteins)}
                 {getNutritionValue('Жиры, г', ingredient.fat)}
                 {getNutritionValue('Углеводы, г', ingredient.carbohydrates)}
             </div>
-        </div>
+        </div>): null
     );
-};
-
-IngredientDetails.propTypes = {
-    ingredient: IngredientPropTypes.isRequired
 };

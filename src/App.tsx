@@ -1,50 +1,29 @@
-import { useEffect, useState } from 'react';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 
 import { AppHeader } from './components/app-header';
 import { BurgerConstructor } from './components/burger-constructor';
 import { BurgerIngredients } from './components/burger-ingredients';
-import { Cart } from './types/cart';
-import { Ingredient } from './types/ingredient';
 
 import './App.css';
-
-const URL_INGREDIENT = 'https://norma.nomoreparties.space/api/ingredients';
+import { useGetIngredientsQuery } from './api/server.api';
 
 function App() {
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [cart, setCart] = useState<Cart>({bun: undefined, fillings: []});
-
-  useEffect(() => {
-    fetch(URL_INGREDIENT).then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-
-      return Promise.reject(`Ошибка ${response.status}`);
-    })
-    .then(response => setIngredients(response.data))
-    .catch(error => setErrorMessage(error))
-  }, []);
-
-  useEffect(() => {
-    const bun = ingredients.find((ingredient) => ingredient.type === 'bun');
-    const fillings = ingredients.filter((ingredient, idx) => ingredient.type !== 'bun' && idx % 2);
-
-    setCart({bun, fillings});
-  }, [ingredients]);
+  const query = useGetIngredientsQuery();
 
   return (
     <>
       <div className="app">
-        { errorMessage ?
-          errorMessage :
+        { query.error && 'message' in query.error ?
+          query.error.message :
           (<>
             <AppHeader />
-            <div className='mb-10 app-content'>
-              <BurgerIngredients ingredients={ingredients} cart={cart} />
-              <BurgerConstructor bun={cart.bun} fillings={cart.fillings} />
-            </div>
+            <DndProvider backend={HTML5Backend}>
+              <div className='mb-10 app-content'>
+                <BurgerIngredients />
+                <BurgerConstructor />
+              </div>
+            </DndProvider>
           </>)
         }
       </div>
