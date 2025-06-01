@@ -68,11 +68,12 @@ export const burgerSlice = createSlice({
             movedFilling.sortOrder = action.payload.newSortOrder;
 
             return state;
-        }
+        },
+        clearBurger: () => initialState
     },
 });
 
-export const { setBun, addFilling, removeFilling, setNewSortOrder } = burgerSlice.actions;
+export const { setBun, addFilling, removeFilling, setNewSortOrder, clearBurger } = burgerSlice.actions;
 
 export default burgerSlice.reducer;
   

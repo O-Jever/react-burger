@@ -3,16 +3,18 @@ import { useMemo, useState } from 'react';
 
 import { Modal } from '../modal';
 import { OrderDetails } from '../order-details';
-import { useAppSelector } from '../../services/hooks';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
 import { BurgerConstructorBun } from '../burger-constructor-bun';
 import { BurgerConstructorFillings } from '../burger-constructor-fillings';
 import { useCreateOrderMutation } from '../../api/server.api';
+import { clearBurger } from '../../services/reducers/burger';
 
 import './styles.css';
 
 export const BurgerConstructor = () => {
     const {bun, fillings} = useAppSelector(state => state.burger);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const dispatch = useAppDispatch();
 
     const [createOrder, {data}] = useCreateOrderMutation();
 
@@ -46,7 +48,10 @@ export const BurgerConstructor = () => {
                 </Button>
             </div>
             {isModalVisible && data ? (
-                <Modal onClose={() => {setIsModalVisible(false)}}>
+                <Modal onClose={() => {
+                    setIsModalVisible(false);
+                    dispatch(clearBurger());
+                }}>
                     <OrderDetails orderId={data?.order.number.toString()} />
                 </Modal>
             ) : null}
