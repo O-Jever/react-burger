@@ -1,0 +1,12 @@
+.burger-constructor-filling {
+  display: flex;
+  align-items: center;
+}
+
+.burger-constructor-filling:not(:last-child) {
+  margin-bottom: 16px;
+}
+
+.drag-icon:hover {
+  cursor: move;
+}

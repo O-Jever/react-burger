@@ -3,7 +3,7 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-dev
 import './styles.css';
 
 export const AppHeader = () => {
-    return (<>
+    return (
         <header className='text ml-10 mr-10 mt-10 pt-4 pb-4 app-header'>
             <div className='app-header-content'>
                 <div className='app-header-menu'>
@@ -23,14 +23,5 @@ export const AppHeader = () => {
                 </button>
             </div>
         </header>
-
-    </>);
+    );
 };
-
-{/* <nav class="menu">
-  <ul>
-    <li><a href="#">Главная</a></li>
-    <li><a href="#">О нас</a></li>
-    <li><a href="#">Контакты</a></li>
-  </ul>
-</nav> */}
