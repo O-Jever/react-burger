@@ -1,13 +1,16 @@
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+import { useCreateOrderMutation } from '@/api/server.api';
+import { useAppSelector, useAppDispatch } from '@/services/hooks';
+import { clearBurger } from '@/services/reducers/burger';
+import { BurgerConstructorBun } from '@/components/burger-constructor-bun';
+import { useIsAuthorized } from '@/hooks/auth-tokens';
+
+import { BurgerConstructorFillings } from '../burger-constructor-fillings';
 import { Modal } from '../modal';
 import { OrderDetails } from '../order-details';
-import { useAppDispatch, useAppSelector } from '../../services/hooks';
-import { BurgerConstructorBun } from '../burger-constructor-bun';
-import { BurgerConstructorFillings } from '../burger-constructor-fillings';
-import { useCreateOrderMutation } from '../../api/server.api';
-import { clearBurger } from '../../services/reducers/burger';
 
 import './styles.css';
 
@@ -15,6 +18,9 @@ export const BurgerConstructor = () => {
     const {bun, fillings} = useAppSelector(state => state.burger);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const isAuthorized = useIsAuthorized();
 
     const [createOrder, {data}] = useCreateOrderMutation();
 
@@ -29,7 +35,7 @@ export const BurgerConstructor = () => {
                 <BurgerConstructorFillings />
                 <BurgerConstructorBun type='bottom' />
             </div>
-            <div className='summary-wrapper pt-10'>
+            <div className='summary-wrapper pt-10 pr-4'>
                 <div className='ingredient-price'>
                     <span className='text text_type_digits-medium'>{totalPrice}</span>
                     <CurrencyIcon className='icon-medium' type={"primary"}/>
@@ -40,6 +46,9 @@ export const BurgerConstructor = () => {
                     size="large"
                     disabled={!bun || !fillings.length}
                     onClick={() => {
+                        if (!isAuthorized) {
+                            return navigate('/login', {state: {from: location.pathname}});
+                        }
                         createOrder({ingredients: [bun!, ...fillings].map((ingredient) => ingredient._id)});
                         setIsModalVisible(true);
                     }

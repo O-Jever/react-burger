@@ -15,11 +15,7 @@
 .header-buttons {
   display: inline-flex;
   align-items: center;
-  background: transparent;
-  text-align: center;
   gap: 8px;
-  color: white;
-  border: none;
 }
 
 .header-buttons:hover {
@@ -28,4 +24,8 @@
 
 .app-header-menu {
   display: flex;
+}
+
+.header-button-active {
+  color: white;
 }

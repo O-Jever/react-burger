@@ -1,0 +1,16 @@
+.page-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.outlet-wrapper {
+  height: calc(100vh - 122px);
+  max-width: 1240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
