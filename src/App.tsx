@@ -1,35 +1,42 @@
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
-import { AppHeader } from './components/app-header';
-import { BurgerConstructor } from './components/burger-constructor';
-import { BurgerIngredients } from './components/burger-ingredients';
+import { NotFoundPage } from './pages/NotFoundPage';
+import { PageWithHeader } from './pages/PageWithHeader/ui';
+import { MainPage } from './pages/Main';
+import { LoginPage } from './pages/LoginPage';
+import { RegisterPage } from './pages/RegisterPage';
+import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
+import { ResetPasswordPage } from './pages/ResetPasswordPage';
+import { ProfilePage } from './pages/ProfilePage';
+import { IngredientPage } from './pages/IngredientPage';
+import { EditUserPage } from './pages/EditUserPage';
+import { LogoutPage } from './pages/LogoutPage';
+import { ProtectedRouteElement } from './components/protected-route-element';
 
-import './App.css';
-import { useGetIngredientsQuery } from './api/server.api';
-
-function App() {
-  const query = useGetIngredientsQuery();
+export function App() {
+  const { state } = useLocation();
 
   return (
-    <>
-      <div className="app">
-        { query.error && 'message' in query.error ?
-          query.error.message :
-          (<>
-            <AppHeader />
-            <DndProvider backend={HTML5Backend}>
-              <div className='mb-10 app-content'>
-                <BurgerIngredients />
-                <BurgerConstructor />
-              </div>
-            </DndProvider>
-          </>)
-        }
-      </div>
-      <div id="react-modals"></div>
-    </>
+    <Routes>
+      <Route element={<PageWithHeader />}>
+        <Route path='*' element={<NotFoundPage />} />
+        <Route path='/' element={<MainPage />}>
+          {state?.modal && <Route path='ingredients/:id' element={<IngredientPage />} />}
+        </Route>
+        <Route path='/ingredients/:id' element={<IngredientPage />} />
+        <Route element={<ProtectedRouteElement forUser='auth' />}>
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/register' element={<RegisterPage />} />
+          <Route path='/forgot-password' element={<ForgotPasswordPage />} />
+          <Route path='/reset-password' element={<ResetPasswordPage />} />
+        </Route>
+        <Route element={<ProtectedRouteElement forUser='guest' />}>
+          <Route path='/profile' element={<ProfilePage />}>
+            <Route index={true} element={<EditUserPage />} />
+            <Route path='logout' element={<LogoutPage />} />
+          </Route>
+        </Route>
+      </Route>
+    </Routes>
   );
 }
-
-export default App;

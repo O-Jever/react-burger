@@ -45,7 +45,7 @@ export const Modal = ({ title, children, onClose }: ModalProps) => {
         );
     };
 
-    return modalRoot ? createPortal(modalContent(), modalRoot) : null;
+    return modalRoot ? createPortal(modalContent(), modalRoot) : modalContent();
 };
 
 Modal.propTypes = {

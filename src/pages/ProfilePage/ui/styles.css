@@ -1,0 +1,38 @@
+.profile-wrapper {
+    height: 100%;
+    width: 1240px;
+}
+
+.profile {
+    display: flex;
+    max-width: 1240px;
+    width: 100%;
+    justify-content: start;
+}
+
+.profile-navigation {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+}
+
+.profile-navigation > li {
+    height: 64px;
+    width: 320px;
+}
+
+.profile-navigation > li:hover {
+    cursor: pointer;
+}
+
+.profile-edit-buttons {
+    display: flex;
+    width: 100%;
+    justify-content:space-around;
+}
+
+.hint {
+    width: 320px;
+    display: inline-block;
+    word-wrap: break-word;
+}

@@ -1,4 +1,6 @@
-import { useAppSelector } from '../../services/hooks';
+import { Ingredient } from '@/types/ingredient';
+import { IngredientPropTypes } from '@/utils/prop-types';
+
 import './styles.css';
 
 const getNutritionValue = (title: string, value: number) => {
@@ -10,9 +12,11 @@ const getNutritionValue = (title: string, value: number) => {
     );
 };
 
-export const IngredientDetails = () => {
-    const {ingredient} = useAppSelector(state => state.ingredientForm);
+type IngredientDetailsProps = {
+    ingredient?: Ingredient;
+};
 
+export const IngredientDetails = ({ingredient}: IngredientDetailsProps) => {
     return (
         ingredient ? (
         <div className='ingredient-detail'>
@@ -26,4 +30,8 @@ export const IngredientDetails = () => {
             </div>
         </div>): null
     );
+};
+
+IngredientDetails.propTypes = {
+    ingredient: IngredientPropTypes,
 };
