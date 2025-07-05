@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery, FetchBaseQueryMeta } from '@reduxjs/toolkit/query/react';
 
-import { Ingredient } from '../types/ingredient';
 import { RegisterRequest } from '@/pages/RegisterPage/types/RegisterRequest';
 import { LoginRequest } from '@/pages/LoginPage/types/LoginRequest';
 import { LoginResponse } from '@/pages/LoginPage/types/LoginResponse';
@@ -13,9 +12,17 @@ import { UpdateUserResponse } from '@/pages/ProfilePage/types/UpdateUserResponse
 import { GetUserRequest } from '@/pages/ProfilePage/types/GetUserRequest';
 import { UpdateUserRequest } from '@/pages/ProfilePage/types/UpdateUserRequest';
 import { GetUserResponse } from '@/pages/ProfilePage/types/GetUserResponse';
-import { CommonApiResponse, CreateOrderRequest, CreateOrderResponse, GetIngredientsResponse, TokenRequest, TokenResponse } from '@/types/api';
 import { LogoutRequest } from '@/pages/LogoutPage/types/LogoutRequest';
 import { LogoutResponse } from '@/pages/LogoutPage/types/LogoutResponse';
+import {
+  CommonApiResponse,
+  CreateOrderRequest,
+  CreateOrderResponse,
+  GetIngredientsResponse,
+  TokenRequest,
+  TokenResponse,
+} from '@/types/api';
+import { Ingredient } from '@/types/ingredient';
 
 const BASE_URL = 'https://norma.nomoreparties.space/api/';
 
@@ -40,7 +47,7 @@ export const serverApi = createApi({
       query: ({ ingredients }) => ({
         url: 'orders',
         method: 'POST',
-        body: {ingredients},
+        body: { ingredients },
       }),
     }),
     login: build.mutation<LoginResponse, LoginRequest>({
@@ -92,35 +99,35 @@ export const serverApi = createApi({
       transformResponse: (res: TokenResponse, meta) => transformResponse(res, meta),
     }),
     getUser: build.query<GetUserResponse, GetUserRequest>({
-      query: ({accessToken}) => ({
+      query: ({ accessToken }) => ({
         url: 'auth/user',
         headers: {
-          'authorization': accessToken
-        }
+          authorization: accessToken,
+        },
       }),
       transformResponse: (res: GetUserResponse, meta) => transformResponse(res, meta),
-      providesTags: ['User']
+      providesTags: ['User'],
     }),
     updateUser: build.mutation<UpdateUserResponse, UpdateUserRequest>({
-      query: ({accessToken, name, email, password}) => ({
+      query: ({ accessToken, name, email, password }) => ({
         url: 'auth/user',
         method: 'PATCH',
         headers: {
-          'authorization': accessToken
+          authorization: accessToken,
         },
         body: {
           name,
           email,
-          password
-        }
+          password,
+        },
       }),
       transformResponse: (res: UpdateUserResponse, meta) => transformResponse(res, meta),
-      invalidatesTags: ['User']
+      invalidatesTags: ['User'],
     }),
   }),
 });
 
-export const { 
+export const {
   useGetIngredientsQuery,
   useCreateOrderMutation,
   useLoginMutation,
@@ -130,5 +137,5 @@ export const {
   useTokenMutation,
   useGetUserQuery,
   useUpdateUserMutation,
-  useLogoutMutation
+  useLogoutMutation,
 } = serverApi;

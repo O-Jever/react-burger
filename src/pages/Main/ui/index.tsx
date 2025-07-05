@@ -1,12 +1,13 @@
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { FC } from 'react';
 import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { BurgerIngredients } from '@/components/burger-ingredients';
 import { BurgerConstructor } from '@/components/burger-constructor';
 
 import './styles.css';
 
-export function MainPage() {
+export const MainPage: FC = () => {
   return (
     <>
       <div className='main-wrapper'>
@@ -19,4 +20,4 @@ export function MainPage() {
       </div>
     </>
   );
-}
+};

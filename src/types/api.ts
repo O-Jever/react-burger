@@ -20,8 +20,11 @@ export type CreateOrderResponse = CommonApiResponse & {
 };
 
 export type ApiError = {
-  success: false;
-  message: string;
+  status: number;
+  data: {
+    success: false;
+    message: string;
+  };
 };
 
 export type TokenRequest = {

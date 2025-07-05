@@ -1,20 +1,21 @@
 import { Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
-import { FormEvent } from 'react';
+import { FC, FormEvent } from 'react';
 
 import { useResetPasswordMutation } from '@/api/server.api';
 import { SubmitButton } from '@/components/submit-button';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { ErrorMessage } from '@/components/error-message';
-import { ApiError } from '@/types/api';
+import { isApiError } from '@/utils/errors';
+import { LocationState } from '@/types/location';
 
 type ResetPasswordForm = {
   password: string;
   code: string;
 };
 
-export function ResetPasswordPage() {
+export const ResetPasswordPage: FC = () => {
   const { control, handleSubmit } = useForm<ResetPasswordForm>({
     mode: 'onChange',
     defaultValues: {
@@ -23,10 +24,10 @@ export function ResetPasswordPage() {
     },
   });
   const [resetPassword, { isLoading, error }] = useResetPasswordMutation();
-  const location = useLocation();
+  const state: LocationState | undefined = useLocation().state;
   const navigate = useNavigate();
 
-  if (location.state?.from !== '/forgot-password') {
+  if (state?.from !== '/forgot-password') {
     return <NotFoundPage />;
   }
 
@@ -67,7 +68,7 @@ export function ResetPasswordPage() {
               />
             )}
           />
-          {error && 'data' in error && <ErrorMessage text={(error.data as ApiError).message}/>}
+          {isApiError(error) && <ErrorMessage text={error.data.message} />}
           <SubmitButton isLoading={isLoading}>Сохранить</SubmitButton>
         </form>
         <span className='text text_type_main-default text_color_inactive'>
@@ -79,4 +80,4 @@ export function ResetPasswordPage() {
       </div>
     </div>
   );
-}
+};

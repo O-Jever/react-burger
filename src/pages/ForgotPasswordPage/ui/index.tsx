@@ -1,18 +1,18 @@
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { FormEvent } from 'react';
+import { FC, FormEvent } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 import { useForgotPasswordMutation } from '@/api/server.api';
 import { SubmitButton } from '@/components/submit-button';
 import { ErrorMessage } from '@/components/error-message';
-import { ApiError } from '@/types/api';
+import { isApiError } from '@/utils/errors';
 
 type ForgotPasswordForm = {
   email: string;
 }
 
-export function ForgotPasswordPage() {
+export const ForgotPasswordPage: FC = () => {
   const { control, handleSubmit } = useForm<ForgotPasswordForm>({
     mode: 'onChange',
     defaultValues: {
@@ -55,11 +55,11 @@ export function ForgotPasswordPage() {
               />
             )}
           />
-          {error && 'data' in error && <ErrorMessage text={(error.data as ApiError).message}/>}
+          {isApiError(error) && <ErrorMessage text={error.data.message} />}
           <SubmitButton isLoading={isLoading}>Восстановить</SubmitButton>
         </form>
         <span className="text text_type_main-default text_color_inactive">Вспомнили пароль? <NavLink className='login-link' to={'/login'}>Войти</NavLink></span>
       </div>
     </div>
   );
-}
+};
