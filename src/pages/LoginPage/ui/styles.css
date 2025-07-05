@@ -1,0 +1,25 @@
+.page-wrapper {
+    height: 100%;
+}
+
+.registartion-wrapper {
+    display: flex;
+    justify-content: center;
+    height: calc(100% - 122px);
+    align-items: center;
+}
+
+.form-wrapper, form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    margin-bottom: 80px;
+}
+
+.login-link {
+    text-decoration: none;
+    color: #4C4CFF;
+}
