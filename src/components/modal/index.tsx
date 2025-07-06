@@ -16,7 +16,7 @@ export const Modal: FC<ModalProps> = ({ title, children, onClose }) => {
   const modalRoot = document.getElementById('react-modals');
 
   useEffect(() => {
-    const onEscape: (this: Window, ev: WindowEventMap['keydown']) => void = (event) => {
+    const onEscape: (this: Window, ev: WindowEventMap['keydown']) => void = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose();
       }

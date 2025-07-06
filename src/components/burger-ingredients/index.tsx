@@ -88,19 +88,19 @@ export const BurgerIngredients: FC = () => {
     }, 0);
   };
 
-  const handleScroll = (event: any) => {
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     if (!bunTitleRef.current || !sauceTitleRef.current || !mainTitleRef.current) {
       return;
     }
 
     if (
-      event.target.scrollTop >= bunTitleRef.current.offsetTop &&
-      event.target.scrollTop < sauceTitleRef.current.offsetTop
+      event.currentTarget.scrollTop >= bunTitleRef.current.offsetTop &&
+      event.currentTarget.scrollTop < sauceTitleRef.current.offsetTop
     ) {
       currentTab !== BUN && setCurrentTab(BUN);
     } else if (
-      event.target.scrollTop >= sauceTitleRef.current.offsetTop &&
-      event.target.scrollTop < mainTitleRef.current.offsetTop
+      event.currentTarget.scrollTop >= sauceTitleRef.current.offsetTop &&
+      event.currentTarget.scrollTop < mainTitleRef.current.offsetTop
     ) {
       currentTab !== SAUCE && setCurrentTab(SAUCE);
     } else if (currentTab !== MAIN) {
