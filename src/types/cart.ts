@@ -1,6 +1,6 @@
 import { Ingredient } from './ingredient';
 
 export type Cart = {
-    bun?: Ingredient;
-    fillings?: Ingredient[];
+  bun?: Ingredient;
+  fillings?: Ingredient[];
 };

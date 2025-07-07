@@ -1,14 +1,15 @@
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useLogoutMutation } from '@/api/server.api';
 import { useAuthTokens, useResetTokens } from '@/hooks/auth-tokens';
 import { ErrorMessage } from '@/components/error-message';
-import { ApiError } from '@/types/api';
+import { isApiError } from '@/utils/errors';
 
 import './styles.css';
 
-export function LogoutPage() {
+export const LogoutPage: FC = () => {
   const [logout, { error: logoutError }] = useLogoutMutation();
   const { refreshToken, error: authError } = useAuthTokens();
   const { resetTokens } = useResetTokens();
@@ -27,11 +28,11 @@ export function LogoutPage() {
   return (
     <div className='logout'>
       <span className='text text_type_main-default text_color_inactive'>Вы действительно хотите выйти?</span>
-      {logoutError && 'data' in logoutError ? <ErrorMessage text={(logoutError.data as ApiError).message} /> : null}
-      {authError && 'data' in authError ? <ErrorMessage text={(authError.data as ApiError).message} /> : null}
+      {isApiError(logoutError) ? <ErrorMessage text={logoutError.data.message} /> : null}
+      {isApiError(authError) ? <ErrorMessage text={authError.data.message} /> : null}
       <Button htmlType='button' onClick={() => void onClick()}>
         Выйти
       </Button>
     </div>
   );
-}
+};

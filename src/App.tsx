@@ -1,17 +1,17 @@
 import { Route, Routes, useLocation } from 'react-router-dom';
 
-import { NotFoundPage } from './pages/NotFoundPage';
-import { PageWithHeader } from './pages/PageWithHeader/ui';
-import { MainPage } from './pages/Main';
-import { LoginPage } from './pages/LoginPage';
-import { RegisterPage } from './pages/RegisterPage';
-import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
-import { ResetPasswordPage } from './pages/ResetPasswordPage';
-import { ProfilePage } from './pages/ProfilePage';
-import { IngredientPage } from './pages/IngredientPage';
-import { EditUserPage } from './pages/EditUserPage';
-import { LogoutPage } from './pages/LogoutPage';
-import { ProtectedRouteElement } from './components/protected-route-element';
+import { NotFoundPage } from '@/pages/NotFoundPage';
+import { PageWithHeader } from '@/pages/PageWithHeader/ui';
+import { MainPage } from '@/pages/Main';
+import { LoginPage } from '@/pages/LoginPage';
+import { RegisterPage } from '@/pages/RegisterPage';
+import { ForgotPasswordPage } from '@/pages/ForgotPasswordPage';
+import { ResetPasswordPage } from '@/pages/ResetPasswordPage';
+import { ProfilePage } from '@/pages/ProfilePage';
+import { IngredientPage } from '@/pages/IngredientPage';
+import { EditUserPage } from '@/pages/EditUserPage';
+import { LogoutPage } from '@/pages/LogoutPage';
+import { ProtectedRouteElement } from '@/components/protected-route-element';
 
 export function App() {
   const { state } = useLocation();

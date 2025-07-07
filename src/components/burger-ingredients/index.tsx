@@ -1,11 +1,11 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useMemo, useRef, useState } from 'react';
+import { FC, useMemo, useRef, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-import { IngredientComponent } from '../ingredient';
-import { Ingredient, IngredientType } from '../../types/ingredient';
-import { useAppSelector } from '../../services/hooks';
-import { useGetIngredientsQuery } from '../../api/server.api';
+import { useGetIngredientsQuery } from '@/api/server.api';
+import { IngredientComponent } from '@/components/ingredient';
+import { useAppSelector } from '@/services/hooks';
+import { Ingredient, IngredientType } from '@/types/ingredient';
 
 import './styles.css';
 
@@ -21,16 +21,16 @@ type GroupedIngredients = {
   [SAUCE]: Ingredient[];
 };
 
-export const BurgerIngredients = () => {
+export const BurgerIngredients: FC = () => {
   const [currentTab, setCurrentTab] = useState<string>(BUN);
   const { data: ingredients = [] } = useGetIngredientsQuery();
   const burger = useAppSelector((state) => state.burger);
   const navigate = useNavigate();
-  const scrollRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const bunTitleRef = useRef(null);
-  const mainTitleRef = useRef(null);
-  const sauceTitleRef = useRef(null);
+  const bunTitleRef = useRef<HTMLHeadingElement>(null);
+  const mainTitleRef = useRef<HTMLHeadingElement>(null);
+  const sauceTitleRef = useRef<HTMLHeadingElement>(null);
 
   const getTitleRef = (type: string) => {
     switch (type) {
@@ -88,15 +88,19 @@ export const BurgerIngredients = () => {
     }, 0);
   };
 
-  const handleScroll = (event: any) => {
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    if (!bunTitleRef.current || !sauceTitleRef.current || !mainTitleRef.current) {
+      return;
+    }
+
     if (
-      event.target.scrollTop >= (bunTitleRef as any).current.offsetTop &&
-      event.target.scrollTop < (sauceTitleRef as any).current.offsetTop
+      event.currentTarget.scrollTop >= bunTitleRef.current.offsetTop &&
+      event.currentTarget.scrollTop < sauceTitleRef.current.offsetTop
     ) {
       currentTab !== BUN && setCurrentTab(BUN);
     } else if (
-      event.target.scrollTop >= (sauceTitleRef as any).current.offsetTop &&
-      event.target.scrollTop < (mainTitleRef as any).current.offsetTop
+      event.currentTarget.scrollTop >= sauceTitleRef.current.offsetTop &&
+      event.currentTarget.scrollTop < mainTitleRef.current.offsetTop
     ) {
       currentTab !== SAUCE && setCurrentTab(SAUCE);
     } else if (currentTab !== MAIN) {
@@ -110,8 +114,11 @@ export const BurgerIngredients = () => {
 
   const scrollToIngredientsBlock = (type: string) => {
     const currentTitleRef = getTitleRef(type);
-    (scrollRef as any).current.scrollTo({
-      top: (currentTitleRef as any).current.offsetTop + 1,
+
+    if (!scrollRef.current || !currentTitleRef.current) return;
+
+    scrollRef.current.scrollTo({
+      top: currentTitleRef.current.offsetTop + 1,
       behavior: 'smooth',
     });
   };
