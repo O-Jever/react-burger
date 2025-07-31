@@ -4,7 +4,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useLoginMutation } from '@/api/server.api';
-import { SubmitButton } from '@/components/submit-button';
+import { ButtonComponent } from '@/components/button';
 import { useSaveTokens } from '@/hooks/auth-tokens';
 import { ErrorMessage } from '@/components/error-message';
 import { isApiError } from '@/utils/errors';
@@ -60,7 +60,7 @@ export function LoginPage() {
           )}
         />
         {isApiError(error) ? <ErrorMessage text={error.data.message} /> : null}
-        <SubmitButton isLoading={isLoading}>Войти</SubmitButton>
+        <ButtonComponent htmlType='submit' isLoading={isLoading}>Войти</ButtonComponent>
       </form>
       <span className='text text_type_main-default text_color_inactive mb-4'>
         Вы — новый пользователь?{' '}

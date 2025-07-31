@@ -1,0 +1,10 @@
+.price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-medium {
+  width: 36px;
+  height: 36px;
+}

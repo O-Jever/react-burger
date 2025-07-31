@@ -10,11 +10,13 @@ enum AuthCookies {
 
 const TOKEN_LIFETIME = 20 * 60 * 1000;
 
-export const useIsAuthorized = () => {
-  const accessToken = Cookies.get(AuthCookies.ACCESS);
-  const refreshToken = Cookies.get(AuthCookies.REFRESH);
+type AuthTokens = {
+  accessToken: string;
+  refreshToken: string;
+};
 
-  return Boolean(accessToken) && Boolean(refreshToken);
+export const isAuthorized = (tokens: Partial<AuthTokens>): tokens is AuthTokens => {
+  return Boolean(tokens.accessToken) && Boolean(tokens.refreshToken);
 };
 
 export const useAuthTokens = () => {
@@ -25,7 +27,10 @@ export const useAuthTokens = () => {
   const date = Number.parseInt(Cookies.get(AuthCookies.DATE) ?? '');
 
   if (!accessToken || !refreshToken) {
-    throw new Error('User is not logged in');
+    return {
+      accessToken: '',
+      refreshToken: ''
+    };
   }
 
   const isExpired = Date.now() - date >= TOKEN_LIFETIME;
@@ -46,7 +51,7 @@ export const useAuthTokens = () => {
           console.error(err);
         });
     }
-  }, [isExpired]);
+  }, [isExpired, refreshToken]);
 
   return { accessToken, refreshToken, error };
 };

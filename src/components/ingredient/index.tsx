@@ -1,7 +1,8 @@
-import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { FC } from 'react';
 import { useDrag } from 'react-dnd';
 
+import { PriceComponent } from '@/components/price';
 import { Ingredient } from '@/types/ingredient';
 
 import './styles.css';
@@ -25,10 +26,7 @@ export const IngredientComponent: FC<IngredientComponentProps> = ({ ingredient, 
       {count ? <Counter count={count} size='default' extraClass='m-1' /> : null}
 
       <img className='pr-4 pl-4' src={image} alt={name} />
-      <div className='ingredient-price'>
-        <span className='text text_type_digits-default'>{price}</span>
-        <CurrencyIcon type={'primary'} />
-      </div>
+      <PriceComponent price={price} />
       <span className='text text_type_main-default ingredient-name'>{name}</span>
     </div>
   );

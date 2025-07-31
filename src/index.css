@@ -17,16 +17,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.icon-medium {
-  width: 36px;
-  height: 36px;
-}
-
 .ingredient-price {
   display: flex;
   gap: 8px;
 }
 
-.burger-scrollbar {
+.burger-scrollbar, .feed-list-wrapper, .orders-history-wrapper, .order-detail-page-ingredient-wrapper  {
   scrollbar-color: #8585ad transparent;
+  scrollbar-width: thin;
 }

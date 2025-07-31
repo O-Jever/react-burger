@@ -1,0 +1,58 @@
+.order-detail-page-wrapper,
+.order-detail-page-number {
+  display: flex;
+  justify-content: center;
+}
+
+.order-detail-page-wrapper {
+  width: 640px;
+}
+
+.order-detail-page-wrapper {
+  flex-direction: column;
+}
+
+.order-detail-page-ingredient {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.order-detail-img-wrapper {
+  width: 64px;
+  height: 64px;
+  padding: 2px;
+  border-radius: 50%;
+  background: linear-gradient(#801ab2, #4c4cff);
+}
+
+.order-detail-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #1C1C21;
+  object-fit: cover;
+}
+
+.order-detail-page-ingredient-wrapper {
+  overflow-y: scroll;
+  max-height: 320px;
+  position: relative;
+}
+
+.order-detail-page-price-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.order-detail-page-info-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.order-detail-page-footer {
+  display: flex;
+  justify-content: space-between;
+}

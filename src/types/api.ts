@@ -10,6 +10,7 @@ export type GetIngredientsResponse = CommonApiResponse & {
 
 export type CreateOrderRequest = {
   ingredients: string[];
+  accessToken: string;
 };
 
 export type CreateOrderResponse = CommonApiResponse & {
@@ -34,4 +35,8 @@ export type TokenRequest = {
 export type TokenResponse = CommonApiResponse & {
   accessToken: string;
   refreshToken: string;
+};
+
+export type GetUserOrdersRequest = {
+  token: string;
 };

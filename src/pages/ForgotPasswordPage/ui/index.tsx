@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 import { useForgotPasswordMutation } from '@/api/server.api';
-import { SubmitButton } from '@/components/submit-button';
+import { ButtonComponent } from '@/components/button';
 import { ErrorMessage } from '@/components/error-message';
 import { isApiError } from '@/utils/errors';
 
@@ -56,7 +56,7 @@ export const ForgotPasswordPage: FC = () => {
             )}
           />
           {isApiError(error) && <ErrorMessage text={error.data.message} />}
-          <SubmitButton isLoading={isLoading}>Восстановить</SubmitButton>
+          <ButtonComponent htmlType='submit' isLoading={isLoading}>Восстановить</ButtonComponent>
         </form>
         <span className="text text_type_main-default text_color_inactive">Вспомнили пароль? <NavLink className='login-link' to={'/login'}>Войти</NavLink></span>
       </div>

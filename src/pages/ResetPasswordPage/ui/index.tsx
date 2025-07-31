@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { FC, FormEvent } from 'react';
 
 import { useResetPasswordMutation } from '@/api/server.api';
-import { SubmitButton } from '@/components/submit-button';
+import { ButtonComponent } from '@/components/button';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { ErrorMessage } from '@/components/error-message';
 import { isApiError } from '@/utils/errors';
@@ -69,7 +69,7 @@ export const ResetPasswordPage: FC = () => {
             )}
           />
           {isApiError(error) && <ErrorMessage text={error.data.message} />}
-          <SubmitButton isLoading={isLoading}>Сохранить</SubmitButton>
+          <ButtonComponent htmlType='submit' isLoading={isLoading}>Сохранить</ButtonComponent>
         </form>
         <span className='text text_type_main-default text_color_inactive'>
           Вспомнили пароль?{' '}
