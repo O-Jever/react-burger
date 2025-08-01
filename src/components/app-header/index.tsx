@@ -45,7 +45,9 @@ export const AppHeader: FC = () => {
             Лента заказов
           </Button>
         </div>
-        <Logo />
+        <div className='app-header-logo' onClick={() => navigate('/')}>
+          <Logo />
+        </div>
         <Button
           htmlType='button'
           type='secondary'
