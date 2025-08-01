@@ -185,9 +185,9 @@ export const serverApi = createApi({
       },
       keepUnusedDataFor: 0
     }),
-    getOrder: build.mutation<Order, {id: string}>({
-      query: ({ id }) => ({
-        url: `orders/${id}`,
+    getOrder: build.query<Order, {num: string}>({
+      query: ({ num }) => ({
+        url: `orders/${num}`,
         method: 'GET'
       }),
       transformResponse: (res: GetOrderResponse, meta) => transformResponse(res, meta).orders[0],
@@ -208,5 +208,5 @@ export const {
   useLogoutMutation,
   useGetOrdersAllQuery,
   useGetUserOrdersQuery,
-  useGetOrderMutation,
+  useGetOrderQuery,
 } = serverApi;

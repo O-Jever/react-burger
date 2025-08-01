@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import { useGetOrdersAllQuery } from '@/api/server.api';
 import { LoaderComponent } from '@/components/loader';
@@ -13,7 +13,7 @@ export const FeedPage: FC = () => {
   const navigate = useNavigate();
 
   const goToOrder = (order: Order) => {
-    void navigate(`/feed/${order._id}`, { state: { order } });
+    void navigate(`/feed/${order.number}`, { state: { order, modal: true } });
   };
 
   const ordersDone = useMemo(() => {
@@ -67,5 +67,6 @@ export const FeedPage: FC = () => {
           </div>
         </div>
       )}
+    <Outlet />
   </>);
 };

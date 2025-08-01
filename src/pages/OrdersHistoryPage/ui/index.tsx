@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import { useGetUserOrdersQuery } from '@/api/server.api';
 import { OrderComponent } from '@/components/order';
@@ -14,7 +14,7 @@ export const OrdersHistoryPage: FC = () => {
   const navigate = useNavigate();
 
   const goToOrder = (order: Order) => {
-    void navigate(`/profile/orders/${order._id}`, {state: {order}});
+    void navigate(`/profile/orders/${order.number}`, {state: {order, modal: true}});
   };
 
   return (
@@ -24,7 +24,7 @@ export const OrdersHistoryPage: FC = () => {
           <OrderComponent key={order._id} order={order} onClick={() => goToOrder(order)} showStatus={true} />
         ))
       ) : (<p className='text text_type_main-medium mt-20'>Заказов нет</p>)}
-      {}
+      <Outlet />
     </div>
   );
 };
