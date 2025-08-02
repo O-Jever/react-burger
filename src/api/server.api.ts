@@ -14,15 +14,19 @@ import { UpdateUserRequest } from '@/pages/ProfilePage/types/UpdateUserRequest';
 import { GetUserResponse } from '@/pages/ProfilePage/types/GetUserResponse';
 import { LogoutRequest } from '@/pages/LogoutPage/types/LogoutRequest';
 import { LogoutResponse } from '@/pages/LogoutPage/types/LogoutResponse';
-import {
+import { GetOrdersAllResponse } from '@/pages/FeedPage/types/GetOrdersAllResponse';
+import { GetOrderResponse } from '@/pages/FeedPage/types/GetOrderResponse';
+import type {
   CommonApiResponse,
   CreateOrderRequest,
   CreateOrderResponse,
   GetIngredientsResponse,
+  GetUserOrdersRequest,
   TokenRequest,
   TokenResponse,
 } from '@/types/api';
 import { Ingredient } from '@/types/ingredient';
+import { Order } from '@/types/order';
 
 const BASE_URL = 'https://norma.nomoreparties.space/api/';
 
@@ -44,10 +48,13 @@ export const serverApi = createApi({
       transformResponse: (res: GetIngredientsResponse, meta) => transformResponse(res, meta).data,
     }),
     createOrder: build.mutation<CreateOrderResponse, CreateOrderRequest>({
-      query: ({ ingredients }) => ({
+      query: ({ ingredients, accessToken }) => ({
         url: 'orders',
         method: 'POST',
         body: { ingredients },
+        headers: {
+          authorization: accessToken
+        }
       }),
     }),
     login: build.mutation<LoginResponse, LoginRequest>({
@@ -124,6 +131,67 @@ export const serverApi = createApi({
       transformResponse: (res: UpdateUserResponse, meta) => transformResponse(res, meta),
       invalidatesTags: ['User'],
     }),
+    getOrdersAll: build.query<GetOrdersAllResponse, void>({
+      queryFn: () => ({ data: { success: true, orders: [], total: 0, totalToday: 0 } }),
+      async onCacheEntryAdded(
+        _arg,
+        { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+      ) {
+        const ws = new WebSocket('wss://norma.nomoreparties.space/orders/all');
+        let isOpened = false;
+        try {
+          await cacheDataLoaded;
+          ws.onopen = () => isOpened = true;
+          ws.onmessage = (event) => {
+            try {
+              const data: GetOrdersAllResponse = JSON.parse(event.data);
+              updateCachedData(() => data);
+            } catch (e) {
+              console.error('Ошибка парсинга данных из WebSocket', e);
+            }
+          };
+          ws.onerror = (event) => console.error('WebSocket error: ', event);
+          await cacheEntryRemoved;
+        } finally {
+          if (isOpened) ws.close();
+        }
+      },
+      keepUnusedDataFor: 0
+    }),
+    getUserOrders: build.query<GetOrdersAllResponse, GetUserOrdersRequest>({
+      queryFn: () => ({ data: { success: true, orders: [], total: 0, totalToday: 0 } }),
+      async onCacheEntryAdded(
+        { token },
+        { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+      ) {
+        let isOpened = false;
+        const ws = new WebSocket(`wss://norma.nomoreparties.space/orders?token=${token}`);
+        try {
+          await cacheDataLoaded;
+          ws.onopen = () => isOpened = true;
+          ws.onmessage = (event) => {
+            try {
+              const data: GetOrdersAllResponse = JSON.parse(event.data);
+              updateCachedData(() => data);
+            } catch (e) {
+              console.error('Ошибка парсинга данных из WebSocket', e);
+            }
+          };
+          ws.onerror = (event) => console.error('WebSocket error: ', event);
+          await cacheEntryRemoved;
+        } finally {
+          if (isOpened) ws.close();
+        }
+      },
+      keepUnusedDataFor: 0
+    }),
+    getOrder: build.query<Order, {num: string}>({
+      query: ({ num }) => ({
+        url: `orders/${num}`,
+        method: 'GET'
+      }),
+      transformResponse: (res: GetOrderResponse, meta) => transformResponse(res, meta).orders[0],
+    })
   }),
 });
 
@@ -138,4 +206,7 @@ export const {
   useGetUserQuery,
   useUpdateUserMutation,
   useLogoutMutation,
+  useGetOrdersAllQuery,
+  useGetUserOrdersQuery,
+  useGetOrderQuery,
 } = serverApi;

@@ -17,8 +17,8 @@ export const ProfilePage: FC = () => {
 
   return (
     <div className='profile-wrapper'>
-      <div className='profile mt-30'>
-        <div>
+      <div className='profile'>
+        <div className='mt-30'>
           <ul className='text text_type_main-medium profile-navigation'>
             {makeNavigationButton('/profile', 'Профиль')}
             {makeNavigationButton('/profile/orders', 'История заказов')}

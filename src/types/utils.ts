@@ -1,0 +1,1 @@
+export type PropsFromFC<T extends React.FC<any>> = T extends React.FC<infer P> ? P : never;

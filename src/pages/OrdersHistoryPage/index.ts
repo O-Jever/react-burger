@@ -1,0 +1,1 @@
+export { OrdersHistoryPage } from './ui';

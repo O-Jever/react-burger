@@ -38,14 +38,16 @@ export const AppHeader: FC = () => {
           <Button
             htmlType='button'
             type='secondary'
-            extraClass={`header-buttons pl-5 pr-5 text text_type_main-default ${getActiveClass(/^\/orders/)}`}
-            onClick={() => navigate('/orders')}
+            extraClass={`header-buttons pl-5 pr-5 text text_type_main-default ${getActiveClass(/^\/feed/)}`}
+            onClick={() => navigate('/feed')}
           >
-            <ListIcon type={getActiveButtonType(/^\/orders/)} />
+            <ListIcon type={getActiveButtonType(/^\/feed/)} />
             Лента заказов
           </Button>
         </div>
-        <Logo />
+        <div className='app-header-logo' onClick={() => navigate('/')}>
+          <Logo />
+        </div>
         <Button
           htmlType='button'
           type='secondary'

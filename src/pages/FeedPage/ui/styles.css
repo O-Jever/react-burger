@@ -1,0 +1,40 @@
+.feed-page-wrapper {
+  height: 100%;
+}
+
+.feed-list-wrapper {
+  overflow-y: scroll;
+  max-height: calc(100vh - 282px);
+  position: relative;
+  padding-right: 16px;
+}
+
+.feed-content-wrapper, .feed-number-lists, .feed-number-lists-done, .feed-number-lists-in-work {
+  display: flex;
+}
+
+.feed-number-lists-done, .feed-number-lists-in-work {
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-height: 200px;
+  gap: 8px;
+}
+
+.feed-number-lists-done {
+  color: #00CCCC;
+}
+
+.feed-number-lists {
+  justify-content: space-between;
+}
+
+.feed-info-wrapper, .feed-list-wrapper, .feed-number-lists-done-wrapper, .feed-number-lists-in-work-wrapper {
+  width: calc(50% - 30px);
+}
+
+.text-glow {
+  text-shadow: 
+    0 4px 32px #3333FF80,
+    0 0 8px #3333FF40,
+    0 0 16px #3333FF40;
+}

@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { useGetUserQuery, useUpdateUserMutation } from '@/api/server.api';
 import { ErrorMessage } from '@/components/error-message';
-import { SubmitButton } from '@/components/submit-button';
+import { ButtonComponent } from '@/components/button';
 import { useAuthTokens } from '@/hooks/auth-tokens';
 import { isApiError } from '@/utils/errors';
 
@@ -91,7 +91,7 @@ export const EditUserPage: FC = () => {
   };
 
   return (
-    <>
+    <div className='mt-30'>
       {isApiError(getUserError) && <ErrorMessage text={getUserError.data.message} />}
       {data ? (
         <form className='ml-15' onSubmit={onSubmit}>
@@ -153,11 +153,11 @@ export const EditUserPage: FC = () => {
               <Button htmlType='reset' onClick={() => resetFields()}>
                 Отменить
               </Button>
-              <SubmitButton isLoading={isLoading}>Сохранить</SubmitButton>
+              <ButtonComponent htmlType='submit' isLoading={isLoading}>Сохранить</ButtonComponent>
             </div>
           ) : null}
         </form>
       ) : null}
-    </>
+    </div>
   );
 };

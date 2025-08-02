@@ -7,7 +7,7 @@ import { ModalOverlay } from '@/components/modal-overlay';
 import './styles.css';
 
 type ModalProps = {
-  title?: string;
+  title?: string | ReactElement;
   children: ReactElement;
   onClose: () => void;
 };

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import { useIsAuthorized } from '@/hooks/auth-tokens';
+import { useAuthTokens, isAuthorized } from '@/hooks/auth-tokens';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 
 type ProtectedRouteElementProps = {
@@ -10,13 +10,13 @@ type ProtectedRouteElementProps = {
 
 export const ProtectedRouteElement: FC<ProtectedRouteElementProps> = ({ anonymous = false }) => {
   const location = useLocation();
-  const isAuthorized = useIsAuthorized();
+  const tokens = useAuthTokens();
 
-  if (anonymous && isAuthorized) {
+  if (anonymous && isAuthorized(tokens)) {
     return <NotFoundPage />;
   }
 
-  if (!anonymous && !isAuthorized) {
+  if (!anonymous && !isAuthorized(tokens)) {
     return <Navigate to='/login' state={{ from: location.pathname }} />;
   }
 

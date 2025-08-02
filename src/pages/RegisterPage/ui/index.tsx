@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { useRegisterMutation } from '@/api/server.api';
 import { ErrorMessage } from '@/components/error-message';
-import { SubmitButton } from '@/components/submit-button';
+import { ButtonComponent } from '@/components/button';
 import { useSaveTokens } from '@/hooks/auth-tokens';
 import { isApiError } from '@/utils/errors';
 
@@ -65,7 +65,7 @@ export const RegisterPage: FC = () => {
             )}
           />
           {isApiError(error) && <ErrorMessage text={error.data.message} />}
-          <SubmitButton isLoading={isLoading}>Зарегистрироваться</SubmitButton>
+          <ButtonComponent htmlType='submit' isLoading={isLoading}>Зарегистрироваться</ButtonComponent>
         </form>
         <span className='text text_type_main-default text_color_inactive'>
           Уже зарегистрированы?{' '}
