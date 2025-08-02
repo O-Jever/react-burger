@@ -2,12 +2,12 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://o-jever.github.io/react-burger",
   "type": "module",
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.126",
@@ -33,16 +33,28 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@testing-library/react": "^16.3.0",
+    "@types/cypress": "^0.1.6",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.0.0",
     "@vitejs/plugin-react": "^4.2.0",
-    "vite": "^5.0.0"
+    "cypress": "^14.5.3",
+    "fetch-mock": "^12.5.3",
+    "gh-pages": "^6.3.0",
+    "jest": "^30.0.5",
+    "react-test-renderer": "^18.3.1",
+    "redux-mock-store": "^1.5.5",
+    "vite": "^5.0.0",
+    "vitest": "^3.2.4"
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "cypress:open": "./node_modules/.bin/cypress open"
   },
   "eslintConfig": {
     "extends": [

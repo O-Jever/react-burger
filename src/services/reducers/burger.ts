@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Ingredient } from '@/types/ingredient';
 
-type BurgerIngredient = Ingredient & {
+export type BurgerIngredient = Ingredient & {
   uuid: string;
 };
 
@@ -10,7 +10,7 @@ export type BurgerIngredientWithSortOrder = BurgerIngredient & {
   sortOrder: number;
 };
 
-type Burger = {
+export type Burger = {
   bun?: BurgerIngredient;
   fillings: BurgerIngredientWithSortOrder[];
 };

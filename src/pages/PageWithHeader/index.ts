@@ -1,1 +1,1 @@
-export { ProfilePage } from './ui';
+export { PageWithHeader } from './ui';
