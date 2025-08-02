@@ -25,14 +25,6 @@ export const useAuthTokens = () => {
   const accessToken = Cookies.get(AuthCookies.ACCESS);
   const refreshToken = Cookies.get(AuthCookies.REFRESH);
   const date = Number.parseInt(Cookies.get(AuthCookies.DATE) ?? '');
-
-  if (!accessToken || !refreshToken) {
-    return {
-      accessToken: '',
-      refreshToken: ''
-    };
-  }
-
   const isExpired = Date.now() - date >= TOKEN_LIFETIME;
 
   useEffect(() => {
@@ -51,7 +43,14 @@ export const useAuthTokens = () => {
           console.error(err);
         });
     }
-  }, [isExpired, refreshToken]);
+  }, [isExpired]);
+
+  if (!accessToken || !refreshToken) {
+    return {
+      accessToken: '',
+      refreshToken: ''
+    };
+  }
 
   return { accessToken, refreshToken, error };
 };
