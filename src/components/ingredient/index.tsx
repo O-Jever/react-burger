@@ -22,7 +22,7 @@ export const IngredientComponent: FC<IngredientComponentProps> = ({ ingredient, 
   });
 
   return (
-    <div ref={dragRef} className='ingredient' onClick={onClick}>
+    <div data-cy='ingredient' ref={dragRef} className='ingredient' onClick={onClick}>
       {count ? <Counter count={count} size='default' extraClass='m-1' /> : null}
 
       <img className='pr-4 pl-4' src={image} alt={name} />

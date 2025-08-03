@@ -1,37 +1,35 @@
-/// <reference types="cypress" />
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+import * as constants from '../support/constants';
+
+Cypress.Commands.add('setAuthTokens', () => {
+    cy.setCookie('access', 'access');
+    cy.setCookie('refresh', 'refresh');
+    cy.setCookie('date', new Date().toISOString());
+});
+
+Cypress.Commands.add('checkConsructorIsEmpty', () => {
+    cy.get(constants.Selectors.CONSTRUCTOR_ELEMENT).eq(0).should('have.text', constants.EMPTY_BUN);
+    cy.get(constants.Selectors.CONSTRUCTOR_ELEMENT).eq(1).should('have.text', constants.EMPTY_FILLING);
+    cy.get(constants.Selectors.CONSTRUCTOR_ELEMENT).eq(2).should('have.text', constants.EMPTY_BUN);
+    cy.get(constants.Selectors.SUMMARY_WRAPPER).find('button').should('be.disabled');
+});
+
+Cypress.Commands.add('checkModalClose', () => {
+    cy.get(constants.Selectors.MODAL_CLOSE).click();
+    cy.get(constants.Selectors.MODAL).should('not.exist');
+});
+
+Cypress.Commands.add('dragIngredientNToConstructorElementN', (ingredientIndex: number, constructorElementIndex: number) => {
+    cy.get(constants.Selectors.INGREDIENT).eq(ingredientIndex).trigger('dragstart');
+    cy.get(constants.Selectors.CONSTRUCTOR_ELEMENT).eq(constructorElementIndex).trigger('drop');
+});
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      setAuthTokens(): Chainable;
+      checkConsructorIsEmpty(): Chainable;
+      checkModalClose(): Chainable;
+      dragIngredientNToConstructorElementN(ingredientIndex: number, constructorElementIndex: number): Chainable;
+    }
+  }
+}

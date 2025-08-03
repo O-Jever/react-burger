@@ -35,7 +35,7 @@ export const BurgerConstructor: FC = () => {
         <BurgerConstructorFillings />
         <BurgerConstructorBun type='bottom' />
       </div>
-      <div className='summary-wrapper pt-10 pr-4'>
+      <div data-cy='summary-wrapper' className='summary-wrapper pt-10 pr-4'>
         <PriceComponent price={totalPrice} size='medium' />
         <ButtonComponent
           htmlType='button'

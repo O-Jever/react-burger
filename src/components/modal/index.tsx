@@ -33,10 +33,12 @@ export const Modal: FC<ModalProps> = ({ title, children, onClose }) => {
     return (
       <>
         <ModalOverlay onClick={onClose} />
-        <div className='modal'>
+        <div data-cy='modal' className='modal'>
           <div className='modal-header ml-10 mt-10 mr-10'>
-            <h3 className='text text_type_main-large'>{title}</h3>
-            <CloseIcon className='modal-close' type='primary' onClick={onClose} />
+            <h3 data-cy='modal-title' className='text text_type_main-large'>{title}</h3>
+            <div className='modal-close' data-cy='modal-close'>
+              <CloseIcon type='primary' onClick={onClose} />
+            </div>
           </div>
           {children}
         </div>
