@@ -11,7 +11,7 @@ type OrderDetailsProps = {
 export const OrderDetails: FC<OrderDetailsProps> = ({ orderId }) => {
   return (
     <div className='order-detail'>
-      <span className='text text_type_digits-large mt-4 mb-8'>{orderId}</span>
+      <span data-cy='order-detail-number' className='text text_type_digits-large mt-4 mb-8'>{orderId}</span>
       <span className='text text_type_main-medium mb-15'>идентификатор заказа</span>
       <img className='mb-15' src={doneImg} alt='done' />
       <span className='text text_type_main-default mb-2'>Ваш заказ начали готовить</span>
